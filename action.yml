@@ -1,0 +1,38 @@
+name: "Free Converter Lab - Random Email Generator"
+author: "Free Converter Lab"
+description: "Generate random placeholder email addresses for software testing, demos, and sample data."
+branding:
+  icon: "mail"
+  color: "blue"
+
+inputs:
+  count:
+    description: "Number of placeholder email addresses to generate (1-10000)."
+    required: false
+    default: "10"
+  domains:
+    description: "Comma-separated domains to use. Defaults to example.test, a reserved testing domain."
+    required: false
+    default: "example.test"
+  prefix:
+    description: "Optional prefix for each generated username (letters, numbers, underscores, and hyphens)."
+    required: false
+    default: ""
+  format:
+    description: "Output file format: txt, csv, or json."
+    required: false
+    default: "txt"
+  output-file:
+    description: "Output file path relative to the GitHub workspace."
+    required: false
+    default: "generated-emails.txt"
+
+outputs:
+  emails:
+    description: "Generated email addresses, separated by newlines."
+  file:
+    description: "Path to the generated output file."
+
+runs:
+  using: "node24"
+  main: "dist/index.js"
