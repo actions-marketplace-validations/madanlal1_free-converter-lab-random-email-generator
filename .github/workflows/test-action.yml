@@ -1,0 +1,29 @@
+name: Test Random Email Generator Action
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Generate test addresses
+        id: generate
+        uses: ./
+        with:
+          count: 5
+          domains: example.test
+          prefix: ci
+          format: json
+          output-file: test-output/emails.json
+
+      - name: Verify generated file
+        run: |
+          test -f "${{ steps.generate.outputs.file }}"
+          node -e "const d=require('./${{ steps.generate.outputs.file }}'); if(d.emails.length !== 5) process.exit(1); console.log('Validated 5 generated addresses.');"
